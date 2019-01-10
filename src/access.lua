@@ -48,6 +48,8 @@ function _M.run(conf)
     print('###################### Dump of ngx.req.get_headers())')
     headers =  ngx.req.get_headers()
     print(print_table.dump(headers))
+    print('###################### Print of headers["Authorization"]')
+    print(headers["Authorization"])
     -- print('###################### Print of headers["Host"]')
     -- print(headers["Host"])
 
@@ -68,7 +70,7 @@ function _M.run(conf)
     --     }
     -- })    
     
-    return responses.send(400, 'Error')
+    return responses.send(200, 'Ok')
     
 end
 
