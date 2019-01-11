@@ -6,19 +6,10 @@ local pl_stringx = require "pl.stringx"
 local http = require "resty.http"
 -- local crypto = require "crypto"
 local print_table = require 'pl.pretty'
-
+local ngx_re_match = ngx.re.match
 local responses = require "kong.tools.responses"
 
 function _M.run(conf)
-
-    -- Here will be performed the authentication and authorization calls to the oauth server
-    -- local httpc = http:new()
-    -- local res, err = httpc:request_uri(conf.authorize_url, {
-    --     method = "GET",
-    --     headers = {
-    --         ["Content-Type"] = "application/json",
-    --     }
-    -- })
 
     -- print('###################### Dump of conf)')
     -- print(print_table.dump(conf))
@@ -50,17 +41,31 @@ function _M.run(conf)
     print(print_table.dump(headers))
     print('###################### Print of headers["Authorization"]')
     print(headers["Authorization"])
+
+    local headers =  ngx.req.get_headers()
+    local authorization_header = headers["Authorization"]
+
+    if authorization_header then
+        local iterator, iter_err = ngx.re.gmatch(authorization_header, "\\s*[Bb]asic\\s*(.+)")
+        if not iterator then
+            ngx.log(ngx.ERR, iter_err)
+            return
+        end
+
+        local m, err = iterator()
+        if err then
+            ngx.log(ngx.ERR, err)
+            return
+        end
+
+        if m and m[1] then
+            print('###################### Print only the token')
+            print(m[1])
+        end
+    end
     -- print('###################### Print of headers["Host"]')
     -- print(headers["Host"])
 
-    -- local httpc = http:new()
-    -- local res, err = httpc:request_uri(callback_url, {
-    --     method = "GET",
-    --     headers = {
-    --         ["Content-Type"] = "application/json",
-    --     }
-    -- })
-    
     -- Here will be performed the call to the api
     -- local httpc = http:new()
     -- local res, err = httpc:request_uri(conf.token_url , {
