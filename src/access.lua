@@ -46,21 +46,20 @@ function _M.run(conf)
     local authorization_header = headers["Authorization"]
 
     if authorization_header then
-        local iterator, iter_err = ngx.re.gmatch(authorization_header, "\\s*[Bb]asic\\s*(.+)")
-        if not iterator then
+        local header_list, iter_err = ngx.re.match(authorization_header, "\\s*[Bb]earer\\s*(.+)")
+        if not header_list then
             ngx.log(ngx.ERR, iter_err)
             return
         end
 
-        local m, err = iterator()
-        if err then
-            ngx.log(ngx.ERR, err)
-            return
-        end
 
-        if m and m[1] then
-            print('###################### Print only the token')
-            print(m[1])
+        print('###################### Print only the token 111111')
+        print(header_list[0])
+        print(header_list[1])
+        if header_list and header_list[1] then
+            print('###################### Print only the token 222222')
+            print(header_list[0])
+            print(header_list[1])
         end
     end
     -- print('###################### Print of headers["Host"]')
