@@ -49,18 +49,31 @@ function _M.run(conf)
         local header_list, iter_err = ngx.re.match(authorization_header, "\\s*[Bb]earer\\s*(.+)")
         if not header_list then
             ngx.log(ngx.ERR, iter_err)
-            return
+            responses.send(401, 'Token not provided.')
         end
 
-
-        print('###################### Print only the token 111111')
-        print(header_list[0])
-        print(header_list[1])
         if header_list and header_list[1] then
-            print('###################### Print only the token 222222')
-            print(header_list[0])
-            print(header_list[1])
+            -- print('###################### Print only the token 222222')
+            -- print(header_list[0])
+            -- print(header_list[1])
+            local token = header_list[1]
+
+            print('###################### Print the authorization endpint')
+            print(conf.authorize_url)
+
+            -- Here will be performed the call to the authentication api
+            -- local httpc = http:new()
+            -- local res, err = httpc:request_uri(conf.authorize_url , {
+            --     method = "GET",
+            --     headers = {
+            --         ["Content-Type"] = "application/json",
+            --     }
+            -- })         
+        else
+            responses.send(401, 'Token not provided.')
         end
+
+
     end
     -- print('###################### Print of headers["Host"]')
     -- print(headers["Host"])
