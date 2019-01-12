@@ -58,17 +58,31 @@ function _M.run(conf)
             -- print(header_list[1])
             local token = header_list[1]
 
-            print('###################### Print the authorization endpint')
-            print(conf.authorize_url)
+            -- print('###################### Print the authorization endpint')
+            -- print(conf.authorize_url)
 
             -- Here will be performed the call to the authentication api
-            -- local httpc = http:new()
-            -- local res, err = httpc:request_uri(conf.authorize_url , {
-            --     method = "GET",
-            --     headers = {
-            --         ["Content-Type"] = "application/json",
-            --     }
-            -- })         
+            local httpc = http:new()
+            local res, err = httpc:request_uri(conf.authorize_url , {
+                method = "GET",
+                headers = {
+                    ["Content-Type"] = "application/json",
+                    ["Authorization"] = "Baerer "..header_list[1],
+                }
+            })
+
+            if err then
+                print('###################### Print the error from authorization server')    
+                print(print_table.dump(err))
+            end
+
+            print('###################### Print the response from authorization server')
+            print(print_table.dump(res))
+
+            -- if code == 200 then
+
+            -- end
+
         else
             responses.send(401, 'Token not provided.')
         end
