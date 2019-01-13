@@ -115,16 +115,16 @@ function _M.run(conf)
                 }
             }
 
-            print('###################### Print the body_data')
-            print(print_table.dump(body_data))
-            for k, v in pairs(body_data) do
-                print(print_table.dump(k))
-                print(print_table.dump(v))
-            end
+            -- print('###################### Print the body_data')
+            -- print(print_table.dump(body_data))
 
             request_body = "";
             if body_data then 
-                request_obj["body"] = body_data[1]
+                for k, v in pairs(body_data) do
+                    -- print(print_table.dump(k))
+                    -- print(print_table.dump(v))
+                    request_obj["body"] = v
+                end
             end
 
             -- url = ngx.ctx.service.host .. ":" .. ngx.ctx.service.port .. "/" .. ngx.ctx.service.path
