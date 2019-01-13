@@ -116,7 +116,7 @@ function _M.run(conf)
             url = ngx.ctx.service.host .. ":" .. ngx.ctx.service.port .. "/" .. ngx.ctx.service.path
 
             request_args = "?"
-            for k, v in pairs(query_args) do
+            for k, v in query_args do
                 request_args = request_args .. v .. "&"
             end
 
