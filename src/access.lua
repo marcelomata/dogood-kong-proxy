@@ -92,8 +92,13 @@ function _M.run(conf)
             -- print('###################### Print the response from authorization server')
             -- print(print_table.dump(res))
 
+            if ngx.req.get_post_args() then
+                body_data = ngx.req.get_post_args()
+            else
+                body_data = nil
+            end
+            
             query_args = ngx.req.get_query_args()
-            body_data = ngx.req.get_post_args()
             http_method = ngx.req.get_method()
 
             request_obj = {
