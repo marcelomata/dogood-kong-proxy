@@ -51,8 +51,8 @@ function _M.run(conf)
     -- print(print_table.dump(ngx.req.get_post_args()))
     -- print('###################### Print of ngx.req.get_uri_args()')
     -- print(print_table.dump(ngx.req.get_uri_args()))
-    print('###################### Print of ngx.req.get_method()')
-    print(print_table.dump(ngx.req.get_method()))
+    -- print('###################### Print of ngx.req.get_method()')
+    -- print(print_table.dump(ngx.req.get_method()))
 
     local headers =  ngx.req.get_headers()
     local authorization_header = headers["Authorization"]
@@ -92,13 +92,43 @@ function _M.run(conf)
             -- print('###################### Print the response from authorization server')
             -- print(print_table.dump(res))
 
-            -- query_args = ngx.req.get_query_args()
-            -- body_data = ngx.req.get_post_args()
-            -- http_method = 
+            query_args = ngx.req.get_query_args()
+            body_data = ngx.req.get_post_args()
+            http_method = ngx.req.get_method()
 
-            if status == 200 then
-                
+            request_obj = {
+                method = http_method,
+                headers = {
+                    ["Content-Type"] = "application/json",
+                }
+            }
+
+            request_body = "";
+            if body_data then 
+                request_obj["body"] = body_data
             end
+
+            url = ngx.ctx.service.host .. ":" .. ngx.ctx.service.port .. "/" .. ngx.ctx.service.path
+
+            request_args = "?"
+            for k, v in pairs(query_args) do
+                request_args = request_args .. v .. "&"
+            end
+
+            if request_args.len() > 0 then
+                request_args = request_args.sub(1, -2)
+                url = url .. request_args
+            end
+
+            print('###################### Print the request obj')
+            print(print_table.dump(request_obj))
+            print('###################### Print the request url')
+            print(print_table.dump(url))
+
+            -- local httpc = http:new()
+            -- local res, err = httpc:request_uri(url, request_obj)
+
+            return responses.send(200, 'Ok')
 
         else
             responses.send(401, 'Token not provided.')
