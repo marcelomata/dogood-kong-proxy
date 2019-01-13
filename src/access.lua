@@ -116,9 +116,13 @@ function _M.run(conf)
             url = ngx.ctx.service.host .. ":" .. ngx.ctx.service.port .. "/" .. ngx.ctx.service.path
 
             request_args = "?"
-            for k, v in query_args do
+            print('###################### Print of ngx.req.get_query_args()')
+            print(print_table.dump(ngx.req.get_query_args()))
+            for _, v in pairs(query_args) do
                 request_args = request_args .. v .. "&"
             end
+            print('###################### Print of request_args')
+            print(print_table.dump(request_args))
 
             if string.len(request_args) > 1 then
                 request_args = request_args.sub(1, -2)
