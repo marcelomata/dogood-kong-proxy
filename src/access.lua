@@ -43,8 +43,15 @@ function _M.run(conf)
     -- print(headers["Authorization"])
     print('###################### Print of ngx.req.get_body_data()')
     print(print_table.dump(ngx.req.get_body_data()))
+    print('###################### Print of ngx.req.read_body()')
+    print(print_table.dump(ngx.req.read_body()))
     print('###################### Print of ngx.req.get_query_args()')
     print(print_table.dump(ngx.req.get_query_args()))
+    print('###################### Print of ngx.req.get_post_args()')
+    print(print_table.dump(ngx.req.get_post_args()))
+    print('###################### Print of ngx.req.get_uri_args()')
+    print(print_table.dump(ngx.req.get_uri_args()))
+    
     
     
 
