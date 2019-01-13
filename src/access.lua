@@ -117,6 +117,10 @@ function _M.run(conf)
 
             print('###################### Print the body_data')
             print(print_table.dump(body_data))
+            for k, _ in pairs(body_data) do
+                print(print_table.dump(k))
+            end
+
             request_body = "";
             if body_data then 
                 request_obj["body"] = body_data[1]
