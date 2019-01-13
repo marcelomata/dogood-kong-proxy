@@ -115,9 +115,12 @@ function _M.run(conf)
                 }
             }
 
+            print('###################### Print the body_data')
+            print(body_data)
+            print(print_table.dump(body_data))
             request_body = "";
             if body_data then 
-                request_obj["body"] = body_data
+                request_obj["body"] = body_data[1]
             end
 
             -- url = ngx.ctx.service.host .. ":" .. ngx.ctx.service.port .. "/" .. ngx.ctx.service.path
