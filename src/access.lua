@@ -123,9 +123,10 @@ function _M.run(conf)
             end
             print('###################### Print of request_args')
             print(print_table.dump(request_args))
+            print(string.len(request_args))
 
             if string.len(request_args) > 1 then
-                request_args = request_args.sub(1, -2)
+                request_args = request_args:sub(1, -2)
                 url = url .. request_args
             end
 
