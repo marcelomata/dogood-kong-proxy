@@ -120,7 +120,7 @@ function _M.run(conf)
                 request_args = request_args .. v .. "&"
             end
 
-            if request_args and request_args.len() > 1 then
+            if string.len(request_args) > 1 then
                 request_args = request_args.sub(1, -2)
                 url = url .. request_args
             end
