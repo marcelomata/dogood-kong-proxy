@@ -17,7 +17,7 @@ function _M.run(conf)
     -- print(print_table.dump(ngx))
     local callback_url = ngx.var.scheme .. "://" .. ngx.var.host ..  ":" .. ngx.var.server_port .. ngx.var.request_uri 
     print('###################### Print ngx.var.scheme .. "://" .. ngx.var.host ..  ":" .. ngx.var.server_port .. ngx.var.request_uri)')
-    print(print_table.dump(callback_url)
+    print(print_table.dump(callback_url))
     print('###################### Dump of ngx.ctx)')
     print(print_table.dump(ngx.ctx))
     print('###################### Dump of ngx.var)')
