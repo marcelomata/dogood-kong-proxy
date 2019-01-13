@@ -92,11 +92,12 @@ function _M.run(conf)
             -- print('###################### Print the response from authorization server')
             -- print(print_table.dump(res))
 
-            -- if ngx.req.get_post_args() then
-            --     body_data = ngx.req.get_post_args()
-            -- else
-            --     body_data = nil
-            -- end
+            ngx.req.read_body()
+            if ngx.req.get_post_args() then
+                body_data = ngx.req.get_post_args()
+            else
+                body_data = nil
+            end
             
             query_args = ngx.req.get_query_args()
             http_method = ngx.req.get_method()
@@ -116,14 +117,9 @@ function _M.run(conf)
             url = ngx.ctx.service.host .. ":" .. ngx.ctx.service.port .. "/" .. ngx.ctx.service.path
 
             request_args = "?"
-            print('###################### Print of ngx.req.get_query_args()')
-            print(print_table.dump(ngx.req.get_query_args()))
             for _, v in pairs(query_args) do
                 request_args = request_args .. v .. "&"
             end
-            print('###################### Print of request_args')
-            print(print_table.dump(request_args))
-            print(string.len(request_args))
 
             if string.len(request_args) > 1 then
                 request_args = request_args:sub(1, -2)
