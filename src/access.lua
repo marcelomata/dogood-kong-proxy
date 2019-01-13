@@ -116,7 +116,6 @@ function _M.run(conf)
             }
 
             print('###################### Print the body_data')
-            print(body_data)
             print(print_table.dump(body_data))
             request_body = "";
             if body_data then 
