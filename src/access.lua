@@ -123,7 +123,7 @@ function _M.run(conf)
                 for k, v in pairs(body_data) do
                     -- print(print_table.dump(k))
                     -- print(print_table.dump(v))
-                    request_obj["body"] = v
+                    request_obj["body"] = k
                 end
             end
 
