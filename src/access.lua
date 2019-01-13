@@ -18,18 +18,18 @@ function _M.run(conf)
     -- local callback_url = ngx.var.scheme .. "://" .. ngx.var.host ..  ":" .. ngx.var.server_port .. ngx.var.request_uri 
     -- print('###################### Print ngx.var.scheme .. "://" .. ngx.var.host ..  ":" .. ngx.var.server_port .. ngx.var.request_uri)')
     -- print(callback_url)
-    -- print('###################### Dump of ngx.ctx)')
-    -- print(print_table.dump(ngx.ctx))
+    print('###################### Dump of ngx.ctx)')
+    print(print_table.dump(ngx.ctx))
     -- print('###################### Dump of ngx.var)')
     -- print(print_table.dump(ngx.var))
     -- print('###################### Dump of ngx.ctx.balancer_data)')
     -- print(print_table.dump(ngx.ctx.balancer_data))
-    -- print('###################### Dump of ngx.ctx.service)')
-    -- print(print_table.dump(ngx.ctx.service))
-    -- print('###################### Dump of ngx.ctx.api)')
-    -- print(print_table.dump(ngx.ctx.api))
-    -- print('###################### Dump of ngx.req)')
-    -- print(print_table.dump(ngx.req))
+    print('###################### Dump of ngx.ctx.service)')
+    print(print_table.dump(ngx.ctx.service))
+    print('###################### Dump of ngx.ctx.api)')
+    print(print_table.dump(ngx.ctx.api))
+    print('###################### Dump of ngx.req)')
+    print(print_table.dump(ngx.req))
     -- print('###################### Dump of ngx.ctx.api.hosts)')
     -- print(print_table.dump(ngx.ctx.api.hosts))
     -- print('###################### Print of ngx.ctx.api.id)')
@@ -39,8 +39,14 @@ function _M.run(conf)
     print('###################### Dump of ngx.req.get_headers())')
     headers =  ngx.req.get_headers()
     print(print_table.dump(headers))
-    print('###################### Print of headers["Authorization"]')
-    print(headers["Authorization"])
+    -- print('###################### Print of headers["Authorization"]')
+    -- print(headers["Authorization"])
+    print('###################### Print of ngx.req.get_body_data()')
+    print(print_table.dump(ngx.req.get_body_data()))
+    print('###################### Print of ngx.req.get_query_args()')
+    print(print_table.dump(ngx.req.get_query_args()))
+    
+    
 
     local headers =  ngx.req.get_headers()
     local authorization_header = headers["Authorization"]
@@ -71,17 +77,18 @@ function _M.run(conf)
                 }
             })
 
-            if err then
+            if err or res.status ~= 200 then
                 print('###################### Print the error from authorization server')    
                 print(print_table.dump(err))
-            end
+                responses.send(401, 'Token not provided.')
+            end       
 
             print('###################### Print the response from authorization server')
             print(print_table.dump(res))
 
-            -- if code == 200 then
-
-            -- end
+            if status == 200 then
+                
+            end
 
         else
             responses.send(401, 'Token not provided.')
@@ -101,7 +108,7 @@ function _M.run(conf)
     --     }
     -- })    
     
-    return responses.send(200, 'Ok')
+    -- return responses.send(200, 'Ok')
     
 end
 
