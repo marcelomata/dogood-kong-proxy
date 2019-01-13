@@ -117,8 +117,9 @@ function _M.run(conf)
 
             print('###################### Print the body_data')
             print(print_table.dump(body_data))
-            for k, _ in pairs(body_data) do
+            for k, v in pairs(body_data) do
                 print(print_table.dump(k))
+                print(print_table.dump(v))
             end
 
             request_body = "";
