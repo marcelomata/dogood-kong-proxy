@@ -150,7 +150,7 @@ function _M.run(conf)
             print('###################### Print the error from upstream server')
             print(print_table.dump(err))
 
-            return res
+            responses.send(res.status, res.body)
 
         else
             responses.send(401, 'Token not provided.')
