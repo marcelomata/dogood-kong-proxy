@@ -145,6 +145,11 @@ function _M.run(conf)
             local httpc = http:new()
             local res, err = httpc:request_uri(url, request_obj)
 
+            print('###################### Print the response from upstream server')
+            print(print_table.dump(res))
+            print('###################### Print the error from upstream server')
+            print(print_table.dump(err))
+
             return res
 
         else
