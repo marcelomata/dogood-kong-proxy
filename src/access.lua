@@ -142,10 +142,10 @@ function _M.run(conf)
             print('###################### Print the request url')
             print(print_table.dump(url))
 
-            -- local httpc = http:new()
-            -- local res, err = httpc:request_uri(url, request_obj)
+            local httpc = http:new()
+            local res, err = httpc:request_uri(url, request_obj)
 
-            -- return res
+            return res
 
         else
             responses.send(401, 'Token not provided.')
