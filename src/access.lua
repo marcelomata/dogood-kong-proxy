@@ -1,10 +1,7 @@
 
 
 local _M = {}
-local cjson = require "cjson.safe"
-local pl_stringx = require "pl.stringx"
 local http = require "resty.http"
--- local crypto = require "crypto"
 local print_table = require 'pl.pretty'
 local ngx_re_match = ngx.re.match
 local responses = require "kong.tools.responses"
@@ -64,7 +61,7 @@ function _M.run(conf)
     local authorization_header = headers["Authorization"]
 
     if authorization_header then
-        local header_list, iter_err = ngx.re.match(authorization_header, "\\s*[Bb]earer\\s*(.+)")
+        local header_list, iter_err = ngx_re_match(authorization_header, "\\s*[Bb]earer\\s*(.+)")
         if not header_list then
             ngx.log(ngx.ERR, iter_err)
             responses.send(401, 'Token not provided.')
@@ -145,10 +142,10 @@ function _M.run(conf)
             print('###################### Print the request url')
             print(print_table.dump(url))
 
-            -- local httpc = http:new()
-            -- local res, err = httpc:request_uri(url, request_obj)
+            local httpc = http:new()
+            local res, err = httpc:request_uri(url, request_obj)
 
-            return responses.send(200, 'Ok')
+            return res
 
         else
             responses.send(401, 'Token not provided.')
@@ -156,27 +153,13 @@ function _M.run(conf)
 
 
     end
-    -- print('###################### Print of headers["Host"]')
-    -- print(headers["Host"])
-
-    -- Here will be performed the call to the api
-    -- local httpc = http:new()
-    -- local res, err = httpc:request_uri(conf.token_url , {
-    --     method = "GET",
-    --     headers = {
-    --         ["Content-Type"] = "application/json",
-    --     }
-    -- })    
     
     -- return responses.send(200, 'Ok')
     
 end
 
--- function encode_token(token, conf)
---     return ngx.encode_base64(crypto.encrypt("aes-128-cbc", token, crypto.digest('md5',conf.client_secret)))
--- end
 
--- function decode_token(token, conf)
+-- function get_token(token, conf)
 --     status, token = pcall(function () return crypto.decrypt("aes-128-cbc", ngx.decode_base64(token), crypto.digest('md5',conf.client_secret)) end)
 --     if status then
 --         return token
