@@ -73,8 +73,8 @@ function _M.run(conf)
             -- print(header_list[1])
             local token = header_list[1]
 
-            -- print('###################### Print the authorization endpint')
-            -- print(conf.authorize_url)
+            print('###################### Print the authorization endpint')
+            print(conf.authorize_url)
 
             -- Here will be performed the call to the authentication api
             local httpc = http:new()
