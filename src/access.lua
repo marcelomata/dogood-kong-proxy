@@ -89,77 +89,75 @@ function _M.run(conf)
             if err or res.status ~= 200 then
                 print('###################### Print the error from authorization server')    
                 print(print_table.dump(err))
-                responses.send(401, 'Token not provided.')
+                responses.send(res.status, res.body)
             end       
+            -- -- print('###################### Print the response from authorization server')
+            -- -- print(print_table.dump(res))
 
-            -- print('###################### Print the response from authorization server')
-            -- print(print_table.dump(res))
-
-            ngx.req.read_body()
-            if ngx.req.get_post_args() then
-                body_data = ngx.req.get_post_args()
-            else
-                body_data = nil
-            end
+            -- ngx.req.read_body()
+            -- if ngx.req.get_post_args() then
+            --     body_data = ngx.req.get_post_args()
+            -- else
+            --     body_data = nil
+            -- end
             
-            query_args = ngx.req.get_query_args()
-            http_method = ngx.req.get_method()
+            -- query_args = ngx.req.get_query_args()
+            -- http_method = ngx.req.get_method()
 
-            request_obj = {
-                method = http_method,
-                headers = {
-                    ["Content-Type"] = "application/json",
-                }
-            }
+            -- request_obj = {
+            --     method = http_method,
+            --     headers = {
+            --         ["Content-Type"] = "application/json",
+            --     }
+            -- }
 
-            -- print('###################### Print the body_data')
-            -- print(print_table.dump(body_data))
+            -- -- print('###################### Print the body_data')
+            -- -- print(print_table.dump(body_data))
 
-            request_body = "";
-            if body_data then 
-                for k, v in pairs(body_data) do
-                    -- print(print_table.dump(k))
-                    -- print(print_table.dump(v))
-                    request_obj["body"] = k
-                end
-            end
+            -- request_body = "";
+            -- if body_data then 
+            --     for k, v in pairs(body_data) do
+            --         -- print(print_table.dump(k))
+            --         -- print(print_table.dump(v))
+            --         request_obj["body"] = k
+            --     end
+            -- end
 
-            -- url = ngx.ctx.service.host .. ":" .. ngx.ctx.service.port .. "/" .. ngx.ctx.service.path
-            url = ngx.var.scheme .. "://" .. ngx.ctx.service.host ..  ":" .. ngx.ctx.service.port .. ngx.var.request_uri
+            -- -- url = ngx.ctx.service.host .. ":" .. ngx.ctx.service.port .. "/" .. ngx.ctx.service.path
+            -- url = ngx.var.scheme .. "://" .. ngx.ctx.service.host ..  ":" .. ngx.ctx.service.port .. ngx.var.request_uri
 
-            request_args = "?"
-            for _, v in pairs(query_args) do
-                request_args = request_args .. v .. "&"
-            end
+            -- request_args = "?"
+            -- for _, v in pairs(query_args) do
+            --     request_args = request_args .. v .. "&"
+            -- end
 
-            if string.len(request_args) > 1 then
-                request_args = request_args:sub(1, -2)
-                url = url .. request_args
-            end
+            -- if string.len(request_args) > 1 then
+            --     request_args = request_args:sub(1, -2)
+            --     url = url .. request_args
+            -- end
 
-            print('###################### Print the request obj')
-            print(print_table.dump(request_obj))
-            print('###################### Print the request url')
-            print(print_table.dump(url))
+            -- print('###################### Print the request obj')
+            -- print(print_table.dump(request_obj))
+            -- print('###################### Print the request url')
+            -- print(print_table.dump(url))
 
-            local httpc = http:new()
-            local res, err = httpc:request_uri(url, request_obj)
+            -- local httpc = http:new()
+            -- local res, err = httpc:request_uri(url, request_obj)
 
-            print('###################### Print the response from upstream server')
-            print(print_table.dump(res))
-            print('###################### Print the error from upstream server')
-            print(print_table.dump(err))
+            -- print('###################### Print the response from upstream server')
+            -- print(print_table.dump(res))
+            -- print('###################### Print the error from upstream server')
+            -- print(print_table.dump(err))
 
-            responses.send(res.status, res.body)
+            -- responses.send(res.status, res.body)
 
         else
             responses.send(401, 'Token not provided.')
         end
 
-
+    else    
+        return responses.send(401, 'Token not provided. This service is not allowed to be accessed without authorization.')
     end
-    
-    -- return responses.send(200, 'Ok')
     
 end
 
